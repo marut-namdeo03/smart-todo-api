@@ -37,12 +37,45 @@ public class Task {
 	private Status status;
 	
 	//setters
+	public void setTitle(String title)
+	{
+		this.title = title;
+	}
+	public void setDescription(String description)
+	{
+		this.description = description;
+	}
+	public void setPriority(Priority priority)
+	{
+		this.priority = priority;
+	}
+	public void setDueDate(LocalDate dueDate)
+	{
+		this.dueDate = dueDate;
+	}
 	public void setStatus(Status status)
 	{
 		this.status = status;
 	}
 	
 	//getters
+	public String getTitle()
+	{
+		return title;
+	}
+	public String getDescription()
+	{
+		return description;
+	}
+	public Priority getPriority()
+	{
+		return priority;
+	}
+	public LocalDate getDueDate()
+	{
+		return dueDate;
+	}
+	
 	public Status getStatus()
 	{
 		return status;
@@ -64,5 +97,4 @@ public class Task {
 		this.dueDate = dueDate;
 		this.status = status;
 	}
-	
 }

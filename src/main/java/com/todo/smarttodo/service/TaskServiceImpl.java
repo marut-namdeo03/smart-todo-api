@@ -2,11 +2,14 @@ package com.todo.smarttodo.service;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.todo.smarttodo.entity.Task;
 import com.todo.smarttodo.repository.TaskRepository;
 
 import com.todo.smarttodo.entity.Status;
 
+@Service
 public class TaskServiceImpl implements TaskService {
 	
 	private final TaskRepository taskRepository;
