@@ -19,7 +19,7 @@ public class TaskServiceImpl implements TaskService {
 		this.taskRepository = taskRepository;
 	}
 	
-	@Override
+	@Override  //for create new task
 	public Task createTask(Task task)
 	{
 		//default status
@@ -28,9 +28,29 @@ public class TaskServiceImpl implements TaskService {
 		return taskRepository.save(task);
 	}
 	
-	@Override
+	@Override  //for get all tasks
 	public List<Task> getAllTasks()
 	{
 		return taskRepository.findAll();
+	}
+	
+	@Override  //for update task
+	public Task updateTask(Long id, Task updatedTask)
+	{
+		Task existingTask = taskRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Task not found"));
+		
+		existingTask.setTitle(updatedTask.getTitle());
+		existingTask.setDescription(updatedTask.getDescription());;
+		existingTask.setPriority(updatedTask.getPriority());
+		existingTask.setDueDate(updatedTask.getDueDate());
+		
+		return taskRepository.save(existingTask);
+	}
+	
+	@Override  //for delete task
+	public void deleteTask(Long id)
+	{
+		taskRepository.deleteById(id);
 	}
 }
