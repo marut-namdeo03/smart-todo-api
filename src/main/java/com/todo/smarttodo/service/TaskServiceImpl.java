@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.todo.smarttodo.entity.Task;
 import com.todo.smarttodo.repository.TaskRepository;
-
+import com.todo.smarttodo.entity.Priority;
 import com.todo.smarttodo.entity.Status;
 
 @Service
@@ -52,5 +52,17 @@ public class TaskServiceImpl implements TaskService {
 	public void deleteTask(Long id)
 	{
 		taskRepository.deleteById(id);
+	}
+	
+	@Override
+	public List<Task> getTaskByPriority(Priority priority)
+	{
+		return taskRepository.findByPriority(priority);
+	}
+	
+	@Override 
+	public List<Task> getTaskByStatus(Status status)
+	{
+		return taskRepository.findByStatus(status);
 	}
 }

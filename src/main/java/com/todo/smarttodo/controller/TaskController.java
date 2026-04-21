@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.todo.smarttodo.entity.Priority;
+import com.todo.smarttodo.entity.Status;
 import com.todo.smarttodo.entity.Task;
 import com.todo.smarttodo.service.TaskService;
 
@@ -52,5 +54,18 @@ public class TaskController {
 	{
 		taskService.deleteTask(id);
 		return "Task deleted successfully";
+	}
+	
+	//create API - find tasks by priority
+	@GetMapping("/priority/{priority}")
+	public List<Task> getByPriority(@PathVariable Priority priority)
+	{
+		return taskService.getTaskByPriority(priority);
+	}
+	
+	@GetMapping("/status/{status}")
+	public List<Task> getByStatus(@PathVariable Status status)
+	{
+		return taskService.getTaskByStatus(status);
 	}
 }
