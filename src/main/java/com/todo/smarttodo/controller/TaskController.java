@@ -2,6 +2,8 @@ package com.todo.smarttodo.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +37,7 @@ public class TaskController {
 	}
 	
 	//create API - get all tasks
-	@GetMapping
+	@GetMapping("/all")
 	public List<Task> getAllTasks()
 	{
 		return taskService.getAllTasks();
@@ -56,6 +58,7 @@ public class TaskController {
 		return "Task deleted successfully";
 	}
 	
+	//from here, used filtering
 	//create API - find tasks by priority
 	@GetMapping("/priority/{priority}")
 	public List<Task> getByPriority(@PathVariable Priority priority)
@@ -67,5 +70,12 @@ public class TaskController {
 	public List<Task> getByStatus(@PathVariable Status status)
 	{
 		return taskService.getTaskByStatus(status);
+	}
+	
+	//from here, for pagination
+	@GetMapping
+	public Page<Task> getPagedTasks(Pageable pageable)
+	{
+		return taskService.getPagedTasks(pageable);
 	}
 }

@@ -2,6 +2,8 @@ package com.todo.smarttodo.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.todo.smarttodo.entity.Task;
@@ -54,6 +56,7 @@ public class TaskServiceImpl implements TaskService {
 		taskRepository.deleteById(id);
 	}
 	
+	//from here, for filtering
 	@Override
 	public List<Task> getTaskByPriority(Priority priority)
 	{
@@ -64,5 +67,12 @@ public class TaskServiceImpl implements TaskService {
 	public List<Task> getTaskByStatus(Status status)
 	{
 		return taskRepository.findByStatus(status);
+	}
+	
+	//from here, for pagination
+	@Override
+	public Page<Task> getPagedTasks(Pageable pageable)
+	{
+		return taskRepository.findAll(pageable);
 	}
 }

@@ -10,6 +10,7 @@ import com.todo.smarttodo.entity.Task;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
 	
+	//from here, for filtering
 	List<Task> findByPriority(Priority priority);
 	
 	List<Task> findByStatus(Status status);
