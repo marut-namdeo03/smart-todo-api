@@ -1,5 +1,6 @@
 package com.todo.smarttodo.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -25,7 +26,15 @@ public class TaskServiceImpl implements TaskService {
 	public Task createTask(Task task)
 	{
 		//default status
-		task.setStatus(Status.PENDING);
+		//task.setStatus(Status.PENDING);
+		
+		//for auto Overdue logic
+		if(task.getDueDate() != null && task.getDueDate().isBefore(LocalDate.now()))
+		{	
+			task.setStatus(Status.OVERDUE);
+		} else {
+			task.setStatus(Status.PENDING);
+		}
 		
 		return taskRepository.save(task);
 	}
@@ -33,7 +42,15 @@ public class TaskServiceImpl implements TaskService {
 	@Override  //for get all tasks
 	public List<Task> getAllTasks()
 	{
-		return taskRepository.findAll();
+		List<Task> tasks = taskRepository.findAll();
+		tasks.forEach(task -> {
+		if (task.getDueDate() != null && task.getDueDate().isBefore(LocalDate.now()) && task.getStatus() != Status.COMPLETED)
+		{
+			task.setStatus(Status.OVERDUE);
+		} else {
+			task.setStatus(Status.OVERDUE);
+		}});
+		return tasks;
 	}
 	
 	@Override  //for update task
@@ -47,6 +64,13 @@ public class TaskServiceImpl implements TaskService {
 		existingTask.setPriority(updatedTask.getPriority());
 		existingTask.setDueDate(updatedTask.getDueDate());
 		
+		//smart logic
+		if (existingTask.getDueDate() != null && existingTask.getDueDate().isBefore(LocalDate.now()) && existingTask.getStatus() != Status.COMPLETED)
+		{
+			existingTask.setStatus(Status.OVERDUE);
+		} else {
+			existingTask.setStatus(Status.PENDING);
+		}
 		return taskRepository.save(existingTask);
 	}
 	
@@ -73,6 +97,16 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public Page<Task> getPagedTasks(Pageable pageable)
 	{
-		return taskRepository.findAll(pageable);
-	}
+		Page<Task> taskPage = taskRepository.findAll(pageable);
+		
+		taskPage.getContent().forEach(task -> {
+	        if (task.getDueDate() != null &&
+	            task.getDueDate().isBefore(LocalDate.now()) &&
+	            task.getStatus() != Status.COMPLETED) {
+
+	            task.setStatus(Status.OVERDUE);
+	        }
+	});
+		return taskPage;
+}
 }
