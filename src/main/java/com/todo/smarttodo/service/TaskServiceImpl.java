@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.todo.smarttodo.entity.Task;
+import com.todo.smarttodo.exception.ResourceNotFoundException;
 import com.todo.smarttodo.repository.TaskRepository;
 import com.todo.smarttodo.entity.Priority;
 import com.todo.smarttodo.entity.Status;
@@ -39,6 +40,12 @@ public class TaskServiceImpl implements TaskService {
 		return taskRepository.save(task);
 	}
 	
+	@Override  //for get task by id
+	public Task getTaskById(Long id) {
+	    return taskRepository.findById(id)
+	            .orElseThrow(() -> new ResourceNotFoundException("Task not found"));
+	}
+	
 	@Override  //for get all tasks
 	public List<Task> getAllTasks()
 	{
@@ -57,7 +64,7 @@ public class TaskServiceImpl implements TaskService {
 	public Task updateTask(Long id, Task updatedTask)
 	{
 		Task existingTask = taskRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Task not found"));
+				.orElseThrow(() -> new ResourceNotFoundException("Task not found"));
 		
 		existingTask.setTitle(updatedTask.getTitle());
 		existingTask.setDescription(updatedTask.getDescription());;

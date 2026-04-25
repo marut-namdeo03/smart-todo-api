@@ -13,6 +13,8 @@ import com.todo.smarttodo.entity.Task;
 public interface TaskService {
 	Task createTask(Task task);
 	
+	Task getTaskById(Long id);
+	
 	List<Task> getAllTasks();
 	
 	Task updateTask(Long id, Task task);

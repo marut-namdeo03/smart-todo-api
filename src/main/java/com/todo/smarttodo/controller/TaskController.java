@@ -35,7 +35,11 @@ public class TaskController {
 	{
 		return taskService.createTask(task);
 	}
-	
+	//create API - get task by id
+	@GetMapping("/{id}")
+	public Task getTaskById(@PathVariable Long id) {
+	    return taskService.getTaskById(id);
+	}
 	//create API - get all tasks
 	@GetMapping("/all")
 	public List<Task> getAllTasks()
