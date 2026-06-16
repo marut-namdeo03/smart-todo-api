@@ -37,6 +37,7 @@ public class TaskServiceImpl implements TaskService {
 			task.setStatus(Status.PENDING);
 		}
 		
+		
 		return taskRepository.save(task);
 	}
 	
@@ -44,20 +45,6 @@ public class TaskServiceImpl implements TaskService {
 	public Task getTaskById(Long id) {
 	    return taskRepository.findById(id)
 	            .orElseThrow(() -> new ResourceNotFoundException("Task not found"));
-	}
-	
-	@Override  //for get all tasks
-	public List<Task> getAllTasks()
-	{
-		List<Task> tasks = taskRepository.findAll();
-		tasks.forEach(task -> {
-		if (task.getDueDate() != null && task.getDueDate().isBefore(LocalDate.now()) && task.getStatus() != Status.COMPLETED)
-		{
-			task.setStatus(Status.OVERDUE);
-		} else {
-			task.setStatus(Status.OVERDUE);
-		}});
-		return tasks;
 	}
 	
 	@Override  //for update task
@@ -112,6 +99,9 @@ public class TaskServiceImpl implements TaskService {
 	            task.getStatus() != Status.COMPLETED) {
 
 	            task.setStatus(Status.OVERDUE);
+	        } else if (task.getStatus() != Status.COMPLETED)
+	        {
+	        	task.setStatus(Status.PENDING);
 	        }
 	});
 		return taskPage;

@@ -9,5 +9,4 @@ public class SmarttodoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SmarttodoApplication.class, args);
 	}
-
 }

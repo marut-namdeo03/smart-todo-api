@@ -18,8 +18,8 @@ import com.todo.smarttodo.entity.Status;
 import com.todo.smarttodo.entity.Task;
 import com.todo.smarttodo.service.TaskService;
 
-@RestController
-@RequestMapping("/tasks")
+@RestController //build REST API & return JSON/XML
+@RequestMapping("/tasks") //maps HTTP requests to controller methods
 public class TaskController {
 	
 	private final TaskService taskService;
@@ -29,33 +29,27 @@ public class TaskController {
 		this.taskService = taskService;
 	}
 	
-	//create API - Add Task
-	@PostMapping
+	//create data(API) - Add Task
+	@PostMapping //handles HTTP POST request
 	public Task createTask(@RequestBody Task task)
 	{
 		return taskService.createTask(task);
 	}
-	//create API - get task by id
-	@GetMapping("/{id}")
+	//create API (for read data) - get task by id
+	@GetMapping("/{id}")  //handles HTTP GET request
 	public Task getTaskById(@PathVariable Long id) {
 	    return taskService.getTaskById(id);
 	}
-	//create API - get all tasks
-	@GetMapping("/all")
-	public List<Task> getAllTasks()
-	{
-		return taskService.getAllTasks();
-	}
 	
-	//create API - update task
-	@PutMapping("/{id}")
+	//create API (for update data) - update task
+	@PutMapping("/{id}") //handles HTTP PUT request
 	public Task updateTask(@PathVariable Long id, @RequestBody Task task)
 	{
 		return taskService.updateTask(id, task);
 	}
 	
 	//create API - delete task
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/{id}")  //handles HTTP request
 	public String deleteTask(@PathVariable Long id)
 	{
 		taskService.deleteTask(id);
@@ -77,6 +71,7 @@ public class TaskController {
 	}
 	
 	//from here, for pagination
+	
 	@GetMapping
 	public Page<Task> getPagedTasks(Pageable pageable)
 	{
